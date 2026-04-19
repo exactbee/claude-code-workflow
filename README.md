@@ -43,9 +43,24 @@ The advisor is already set to **Opus** in `.claude/settings.json`. No manual set
 .
 ├── CLAUDE.md                  # Workflow rules auto-loaded by Claude Code
 ├── README.md                  # This file
-├── .gitignore                 # Excludes personal settings and secrets
+├── CONTRIBUTING.md            # How to contribute
+├── setup.sh                   # One-command install (Mac/Linux)
+├── setup.ps1                  # One-command install (Windows)
+├── .mcp.json                  # MCP server config (context-mode, context7, repomix, code-review-graph)
+├── .gitignore
+├── assets/
+│   └── social-preview.png
+├── docs/
+│   ├── SETUP.md               # Install guide for each tool
+│   ├── TOOLKIT.md             # What each tool does and why
+│   ├── DECISIONS.md           # Architecture decision log
+│   ├── LIMITS.md              # Known limits and failure modes
+│   └── WATCHLIST.md           # Tools under evaluation
 └── .claude/
-    └── settings.json          # Project-scoped Claude Code settings
+    ├── settings.json          # Project-scoped Claude Code settings
+    ├── settings.local.json.example
+    ├── mcp-wrappers/          # Cross-platform npx wrappers
+    └── skills/                # Slash commands (caveman, debrief, git-profile, playwright-cli…)
 ```
 
 ---

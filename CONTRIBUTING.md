@@ -3,8 +3,8 @@
 ## What belongs here
 
 - **CLAUDE.md rules** — workflow improvements, new constraints, better escalation patterns
-- **New skills** — add to `.claude/skills/<name>/SKILL.md`, document in TOOLKIT.md
-- **MCP server additions** — add to `.mcp.json`, document in TOOLKIT.md + SETUP.md
+- **New skills** — add to `.claude/skills/<name>/SKILL.md`, document in `docs/TOOLKIT.md`
+- **MCP server additions** — add to `.mcp.json`, document in `docs/TOOLKIT.md` + `docs/SETUP.md`
 - **Bug fixes** — broken setup steps, wrong commands, outdated docs
 
 ## What doesn't belong here
@@ -22,9 +22,9 @@
 
 ## PR checklist
 
-- [ ] TOOLKIT.md updated if you added/changed a tool
-- [ ] SETUP.md checklist updated if install steps changed
-- [ ] DECISIONS.md entry added if you made an architectural choice (use D-NNN format)
+- [ ] `docs/TOOLKIT.md` updated if you added/changed a tool
+- [ ] `docs/SETUP.md` checklist updated if install steps changed
+- [ ] `docs/DECISIONS.md` entry added if you made an architectural choice (use D-NNN format)
 - [ ] `settings.local.json` not committed
 
 ## Reporting issues
