@@ -32,14 +32,8 @@ cd "my-claude-env"
 claude .
 ```
 
-### 3. Set the advisor model
-Inside the Claude Code session, run:
-```
-/advisor
-```
-Select **Opus 4.7** from the list.
-
-> You must do this every session — the advisor selection is not persisted across sessions.
+### 3. Open Claude Code — advisor is pre-configured
+The advisor is already set to **Opus** in `.claude/settings.json`. No manual setup needed.
 
 ---
 

@@ -5,7 +5,7 @@
 - **Worker (Sonnet):** Executes tasks. Writes code, edits files, runs tools. Does NOT improvise architecture.
 - **Advisor (Opus):** Plans and reviews. Called before execution and when blocked.
 
-> New users: run `/advisor` and select **Opus 4.7** after opening this project.
+> Advisor is pre-configured to Opus via `.claude/settings.json` — no manual setup needed.
 
 ---
 
