@@ -47,6 +47,15 @@ When stating a fact, recommendation, or technical detail, be explicit about its 
 
 Never present training knowledge as verified fact. If the user is about to act on something, verify it first.
 
+### Rule 7 — Use Haiku for Bulk Mechanical Work
+Spawn a Haiku subagent ONLY for tasks that are large in volume but simple in reasoning:
+- Bulk coding: mass renames, repetitive refactors across many files, find-and-replace patterns
+- Data analysis: log parsing, JSON/CSV extraction, filtering large outputs, counting/aggregating
+
+Do NOT use Haiku for: single-file edits, anything requiring judgment, architecture, or debugging.
+Reason: Haiku subagents start cold (no context). For small tasks, briefing cost exceeds token savings.
+When in doubt, Sonnet handles it inline.
+
 ---
 
 ## Trivial Tasks (No Plan Required)
