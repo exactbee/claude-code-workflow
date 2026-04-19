@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "node",
+      "args": [".claude/mcp-wrappers/context7.js"],
+      "type": "stdio"
+    },
+    "repomix": {
+      "command": "node",
+      "args": [".claude/mcp-wrappers/repomix.js"],
+      "type": "stdio"
+    },
+    "code-review-graph": {
+      "command": "code-review-graph",
+      "args": [
+        "serve",
+        "--tools",
+        "get_minimal_context_tool,get_review_context_tool,get_impact_radius_tool,query_graph_tool,detect_changes_tool,semantic_search_nodes_tool"
+      ],
+      "type": "stdio"
+    }
+  }
+}
