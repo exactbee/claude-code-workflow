@@ -52,3 +52,43 @@ New contributors: read this before changing anything in `CLAUDE.md` or `.claude/
 **Why:** Haiku subagents start cold with no session context. For a small task, the briefing overhead costs more in tokens than the cheaper model saves. The savings only materialize when the task is large in volume but simple in reasoning (mass renames, log parsing, CSV extraction). Using Haiku for small tasks would make every interaction slower and more expensive — the opposite of the intent.
 
 **Revisit if:** Claude Code adds a native model-switching mechanism that avoids the cold-start briefing cost.
+
+---
+
+## D-006 — code-review-graph scoped to 6 tools, not all 28
+
+**Decision:** `.mcp.json` uses `--tools` to restrict code-review-graph to 6 tools: `get_minimal_context_tool`, `get_review_context_tool`, `get_impact_radius_tool`, `query_graph_tool`, `detect_changes_tool`, `semantic_search_nodes_tool`.
+
+**Why:** User intent was "code reviews only, not always." Loading all 28 tool schemas on every session adds token overhead regardless of whether a review is happening. 6 tools cover the full review workflow. The rest are navigation/analysis extras that can be re-enabled via `--tools` in `.mcp.json` if needed.
+
+**Revisit if:** Workflow expands beyond reviews — e.g., `find_large_functions_tool` for refactor sessions.
+
+---
+
+## D-007 — Playwright CLI + Skills over Playwright MCP
+
+**Decision:** Using `playwright-cli` (skill-based) instead of `playwright-mcp` (MCP server) for browser testing.
+
+**Why:** Microsoft's own docs recommend CLI + Skills for coding agents: MCP loads full accessibility trees into context (~10k tokens per interaction). CLI keeps page data out of the LLM entirely — Claude writes and runs shell commands instead of introspecting live DOM. For a fullstack developer writing test suites (not doing autonomous scraping), CLI is the right fit.
+
+**Revisit if:** Use case shifts to autonomous browser control, self-healing tests, or exploratory automation — those benefit from MCP's persistent browser state.
+
+---
+
+## D-008 — SETUP.md and LIMITS.md as mandatory baseline docs
+
+**Decision:** Every tool in this repo must have an entry in both SETUP.md (how to install) and LIMITS.md (what it breaks and when it hurts you).
+
+**Why:** This repo is a baseline cloned into new projects. Without install instructions, new users have to reverse-engineer tool configs. Without documented limits, they'll hit silent failures (e.g., context7 returning nothing for unlisted libraries, code-review-graph failing on un-built repos) with no diagnosis path. TOOLKIT.md covers the "what and why" — SETUP + LIMITS cover the "how and when not to."
+
+**Revisit if:** Docs fall out of sync with actual tool behavior — then they become worse than no docs.
+
+---
+
+## D-009 — debrief moved from commands/ to skills/debrief/SKILL.md
+
+**Decision:** Restored deleted `debrief.md` to `.claude/skills/debrief/SKILL.md` instead of `.claude/commands/debrief.md`.
+
+**Why:** Official Claude Code docs confirm commands/ and skills/ are equivalent — custom commands have been merged into skills. skills/ is the modern format and supports directory structure for supporting files. Since playwright-cli also dropped its skill into `.claude/skills/`, consolidating there keeps the structure consistent.
+
+**Revisit if:** A tool requires flat `.claude/commands/` format for compatibility (none known currently).
