@@ -47,6 +47,12 @@ When stating a fact, recommendation, or technical detail, be explicit about its 
 
 Never present training knowledge as verified fact. If the user is about to act on something, verify it first.
 
+### Rule 8 — Use code-review-graph for All Reviews
+When running any code review, security review, or `/simplify`:
+- Always pair review agents with `code-review-graph` tools (`get_review_context_tool`, `get_impact_radius_tool`).
+- Never launch a review agent with raw diff alone.
+- If the graph is missing, run `code-review-graph build` first, then proceed.
+
 ### Rule 7 — Use Haiku for Bulk Mechanical Work
 Spawn a Haiku subagent ONLY for tasks that are large in volume but simple in reasoning:
 - Bulk coding: mass renames, repetitive refactors across many files, find-and-replace patterns
