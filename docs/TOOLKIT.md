@@ -70,6 +70,14 @@ Skills live in `.claude/commands/` (legacy) or `.claude/skills/` (modern) and ar
 - **Why:** Sets local `user.name` + `user.email` per repo for multi-client workflows. Commits go out under right alias without touching global gitconfig. Pair with `gh auth switch` for full account isolation.
 - **Revisit if:** Using `includeIf` in global `~/.gitconfig` instead (directory-based auto-switching)
 
+### /review-mood
+- **File:** `.claude/skills/review-mood/SKILL.md`
+- **Trigger:** Manual — `/review-mood` (show current) · `/review-mood [mood]` (set)
+- **Token impact:** Neutral — adds one directive line to each review agent prompt
+- **Moods:** `strict` (default) · `hostile` · `paranoid` · `lenient` · `neutral`
+- **Why:** Sticky session mood injected into every review agent. Default strict means reviewers never go easy. Switch to hostile for maximum criticism, paranoid for security focus, lenient for mentoring.
+- **Revisit if:** You want per-agent mood override rather than session-wide
+
 ### /debrief
 - **File:** `.claude/skills/debrief/SKILL.md`
 - **Trigger:** Manual — invoke `/debrief` at session end

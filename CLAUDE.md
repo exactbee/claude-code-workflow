@@ -52,6 +52,7 @@ When running any code review, security review, or `/simplify`:
 - Always pair review agents with `code-review-graph` tools (`get_review_context_tool`, `get_impact_radius_tool`).
 - Never launch a review agent with raw diff alone.
 - If the graph is missing, run `code-review-graph build` first, then proceed.
+- Always inject the current reviewer mood into every review agent prompt (default: **strict**). Use `/review-mood` to change it.
 
 ### Rule 7 — Use Haiku for Bulk Mechanical Work
 Spawn a Haiku subagent ONLY for tasks that are large in volume but simple in reasoning:
