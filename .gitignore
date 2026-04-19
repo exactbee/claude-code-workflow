@@ -15,3 +15,10 @@ desktop.ini
 .env.*
 *.pem
 *.key
+# Added by code-review-graph
+.code-review-graph/
+
+# Playwright generated output (cli.config.json IS committed — shared config)
+playwright-report/
+test-results/
+.playwright/output/
