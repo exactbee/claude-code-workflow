@@ -1,0 +1,10 @@
+{
+  "// note": "Copy this file to settings.local.json — it is gitignored and never committed.",
+  "// scope": "Personal overrides only. Shared settings belong in settings.json.",
+  "theme": "dark",
+  "autoUpdaterStatus": "enabled",
+  "preferredNotifChannel": "terminal",
+  "env": {
+    "ANTHROPIC_API_KEY": "sk-ant-..."
+  }
+}
