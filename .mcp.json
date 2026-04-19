@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "context-mode": {
-      "command": "npx",
-      "args": ["-y", "@mksglu/context-mode"],
+      "command": "node",
+      "args": [".claude/mcp-wrappers/context-mode.js"],
       "type": "stdio"
     },
     "context7": {
