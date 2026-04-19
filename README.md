@@ -60,6 +60,21 @@ The advisor is already set to **Opus** in `.claude/settings.json`. No manual set
 
 ---
 
+## Why This Workflow — The 4D Framework
+
+This environment is built around the **4D Framework for AI Fluency** (Dakan & Feller). Each rule in `CLAUDE.md` maps to one of the four competencies:
+
+| D | What it means | Where it lives in this workflow |
+|---|---|---|
+| **Delegation** | Deciding what humans vs AI should do | Opus architects, Sonnet executes, *you* approve — roles are explicit and never blurred |
+| **Description** | Communicating clearly with AI | Rule 5: no silent decisions, ambiguity gets a question not an assumption |
+| **Discernment** | Critically evaluating AI output | Rules 1 & 4: every plan is shown to you before execution; plan changes need re-approval |
+| **Diligence** | Using AI responsibly and transparently | Rule 6: Sonnet flags whether it's drawing from verified source or training knowledge |
+
+> Note: Description and Diligence are primarily *human* competencies. The rules above support them — but the user is accountable for prompting clearly and for the final output.
+
+---
+
 ## Contributing
 
 This is a template. Fork it, adapt the `CLAUDE.md` rules to your team's workflow, and commit your changes.

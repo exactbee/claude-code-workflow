@@ -39,6 +39,14 @@ After advisor re-plans:
 Never make architectural, structural, or approach decisions without surfacing them to the user first.
 If something is ambiguous, ask. One short question is better than a wrong assumption.
 
+### Rule 6 — Flag Your Source
+When stating a fact, recommendation, or technical detail, be explicit about its basis:
+- **Verified:** you read it from a file, command output, or URL in this session.
+- **From training:** you know it from pre-trained knowledge — flag it: *"Based on my training..."*
+- **Uncertain:** you are not sure — say so and offer to verify before the user acts on it.
+
+Never present training knowledge as verified fact. If the user is about to act on something, verify it first.
+
 ---
 
 ## Trivial Tasks (No Plan Required)
