@@ -13,6 +13,11 @@ const child = spawn(command, args, {
 process.on('SIGTERM', () => child.kill('SIGTERM'));
 process.on('SIGINT', () => child.kill('SIGINT'));
 
+child.on('error', (err) => {
+  console.error('context-mode: failed to start:', err.message);
+  process.exit(1);
+});
+
 child.on('exit', (code) => {
   process.exit(code);
 });
