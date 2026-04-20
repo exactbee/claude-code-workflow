@@ -14,17 +14,29 @@ const DEST = process.cwd();
 const FORCE = process.argv.includes('--force');
 const SKIP_MCP = process.argv.includes('--skip-mcp');
 const DRY_RUN = process.argv.includes('--dry-run');
+const YES = process.argv.includes('--yes');
+const SUBCOMMAND = process.argv[2] && !process.argv[2].startsWith('-') ? process.argv[2] : null;
+
+const skillsArg = process.argv.find(a => a.startsWith('--skills='));
+const SKILLS = skillsArg ? skillsArg.slice(9) : 'all';
 
 const WHITELIST = ['.claude', 'CLAUDE.md', '.mcp.json', 'setup.sh', 'setup.ps1'];
+const MARKER = '.claude-workflow-kit';
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log('Usage: npx claude-workflow-kit [options]');
+  console.log('Usage: npx claude-workflow-kit [subcommand] [options]');
+  console.log('');
+  console.log('Subcommands:');
+  console.log('  (default)    Install workflow files + MCP servers');
+  console.log('  uninstall    Remove files previously installed by this tool');
   console.log('');
   console.log('Options:');
-  console.log('  --force      Overwrite existing files');
-  console.log('  --skip-mcp   Copy files only, skip MCP server installs');
-  console.log('  --dry-run    Preview actions without writing');
-  console.log('  --help, -h   Show this help');
+  console.log('  --force              Overwrite existing files');
+  console.log('  --skip-mcp           Copy files only, skip MCP server installs');
+  console.log('  --skills=<list>      Comma list of skill names, or "all" (default), or "none"');
+  console.log('  --yes                Skip confirmation on uninstall');
+  console.log('  --dry-run            Preview actions without writing');
+  console.log('  --help, -h           Show this help');
   process.exit(0);
 }
 
@@ -54,7 +66,66 @@ function isNewer(latest, current) {
   return false;
 }
 
+function uninstall() {
+  const markerPath = path.join(DEST, MARKER);
+  if (!fs.existsSync(markerPath)) {
+    console.error('ERROR: No ' + MARKER + ' marker found in ' + DEST);
+    console.error('This directory was not installed by claude-workflow-kit.');
+    process.exit(1);
+  }
+  const installed = fs.readFileSync(markerPath, 'utf8').trim();
+  console.log('Installed version: ' + installed);
+  console.log('');
+  console.log('Will remove:');
+  const present = [];
+  for (const item of WHITELIST) {
+    if (fs.existsSync(path.join(DEST, item))) {
+      console.log('  - ' + item);
+      present.push(item);
+    }
+  }
+  console.log('  - ' + MARKER + ' (marker)');
+  console.log('');
+  console.log('Note: .gitignore entries NOT touched (prune manually if desired).');
+  console.log('');
+
+  if (DRY_RUN) { console.log('[dry-run] no changes made.'); return; }
+
+  if (!YES) {
+    console.log('Re-run with --yes to confirm removal:');
+    console.log('  npx claude-workflow-kit uninstall --yes');
+    return;
+  }
+
+  for (const item of present) {
+    fs.rmSync(path.join(DEST, item), { recursive: true, force: true });
+    console.log('  removed ' + item);
+  }
+  fs.rmSync(markerPath, { force: true });
+  console.log('  removed ' + MARKER);
+  console.log('');
+  console.log('Uninstall complete.');
+}
+
+function skillsFilter(src) {
+  if (SKILLS === 'all') return true;
+  const skillsDir = path.join(PKG_ROOT, '.claude', 'skills');
+  const rel = path.relative(skillsDir, src);
+  if (rel.startsWith('..') || path.isAbsolute(rel)) return true;
+  if (rel === '') return SKILLS !== 'none';
+  if (SKILLS === 'none') return false;
+  const top = rel.split(path.sep)[0];
+  const allow = SKILLS.split(',').map(s => s.trim()).filter(Boolean);
+  return allow.includes(top);
+}
+
 async function main() {
+
+if (SUBCOMMAND === 'uninstall') { uninstall(); return; }
+if (SUBCOMMAND) {
+  console.error('ERROR: Unknown subcommand: ' + SUBCOMMAND);
+  process.exit(1);
+}
 
 // ── Version check (non-blocking) ──────────────────────────────────────────────
 
@@ -91,9 +162,26 @@ console.log('Node.js : OK');
 console.log('Python  : OK (' + pythonCmd + ')');
 console.log('');
 
+// ── Validate --skills ─────────────────────────────────────────────────────────
+
+if (SKILLS !== 'all' && SKILLS !== 'none') {
+  const skillsDir = path.join(PKG_ROOT, '.claude', 'skills');
+  const available = fs.existsSync(skillsDir)
+    ? fs.readdirSync(skillsDir, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name)
+    : [];
+  const requested = SKILLS.split(',').map(s => s.trim()).filter(Boolean);
+  const unknown = requested.filter(r => !available.includes(r));
+  if (unknown.length) {
+    console.error('ERROR: Unknown skill(s): ' + unknown.join(', '));
+    console.error('Available: ' + (available.join(', ') || '(none)'));
+    process.exit(1);
+  }
+}
+
 // ── Copy files ────────────────────────────────────────────────────────────────
 
 console.log('[1/3] Copying Claude Code workflow files...');
+if (SKILLS !== 'all') console.log('  (skills filter: ' + SKILLS + ')');
 
 for (const item of WHITELIST) {
   const src = path.join(PKG_ROOT, item);
@@ -106,7 +194,7 @@ for (const item of WHITELIST) {
       console.log('  skip  ' + item + '/  (exists — use --force to overwrite)');
       continue;
     }
-    if (!DRY_RUN) fs.cpSync(src, dest, { recursive: true });
+    if (!DRY_RUN) fs.cpSync(src, dest, { recursive: true, filter: skillsFilter });
     console.log('  copy  ' + item + '/');
   } else {
     if (fs.existsSync(dest) && !FORCE) {
@@ -139,6 +227,12 @@ if (fs.existsSync(templateIgnore)) {
     console.log('  skip  .gitignore (already up to date)');
   }
 }
+
+// ── Drop install marker ───────────────────────────────────────────────────────
+
+const markerPath = path.join(DEST, MARKER);
+if (!DRY_RUN) fs.writeFileSync(markerPath, CURRENT_VERSION + '\n');
+console.log('  write ' + MARKER);
 
 console.log('');
 
