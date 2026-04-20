@@ -22,6 +22,3 @@ desktop.ini
 playwright-report/
 test-results/
 .playwright/output/
-
-# Node (package.json present for npx publish)
-node_modules/

@@ -1,0 +1,26 @@
+{
+  "name": "claude-workflow-kit",
+  "version": "1.0.2",
+  "description": "One-command Claude Code workflow bootstrap — Opus-plans, Sonnet-executes",
+  "bin": {
+    "claude-workflow-kit": "bin/init.js"
+  },
+  "files": [
+    ".claude",
+    "CLAUDE.md",
+    ".mcp.json",
+    "setup.sh",
+    "setup.ps1",
+    ".gitignore-template",
+    "bin"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "prepack": "node -e \"const f=require('fs'),p='.claude/settings.local.json';f.existsSync(p)&&f.renameSync(p,'.settings.local.json.bak')\"",
+    "postpack": "node -e \"const f=require('fs'),t='.settings.local.json.bak';f.existsSync(t)&&f.renameSync(t,'.claude/settings.local.json')\""
+  },
+  "keywords": ["claude", "claude-code", "ai", "workflow", "template"],
+  "license": "MIT"
+}

@@ -21,19 +21,26 @@ The workflow:
 
 ## Setup (First Time)
 
-### 1. Clone or copy this repo
+Run this in any project directory:
+
 ```bash
-git clone <repo-url> "my-claude-env"
-cd "my-claude-env"
+npx claude-workflow-kit
 ```
 
-### 2. Open in Claude Code
+That's it. The command:
+- Copies `.claude/`, `CLAUDE.md`, `.mcp.json`, and setup scripts into your project
+- Merges `.gitignore` entries
+- Installs all MCP servers (context-mode, code-review-graph, playwright-cli)
+
+Then open the project in Claude Code:
+
 ```bash
 claude .
 ```
 
-### 3. Open Claude Code — advisor is pre-configured
-The advisor is already set to **Opus** in `.claude/settings.json`. No manual setup needed.
+The advisor is pre-configured to **Opus** in `.claude/settings.json` — no manual setup needed.
+
+> **Re-install / update:** `npx claude-workflow-kit --force` to overwrite existing files.
 
 ---
 
@@ -44,10 +51,14 @@ The advisor is already set to **Opus** in `.claude/settings.json`. No manual set
 ├── CLAUDE.md                  # Workflow rules auto-loaded by Claude Code
 ├── README.md                  # This file
 ├── CONTRIBUTING.md            # How to contribute
-├── setup.sh                   # One-command install (Mac/Linux)
-├── setup.ps1                  # One-command install (Windows)
+├── package.json               # npm package (enables npx claude-code-workflow)
+├── bin/
+│   └── init.js                # npx entry point — copies files + installs MCP servers
+├── setup.sh                   # MCP install script (Mac/Linux)
+├── setup.ps1                  # MCP install script (Windows)
 ├── .mcp.json                  # MCP server config (context-mode, context7, repomix, code-review-graph)
 ├── .gitignore
+├── .gitignore-template        # Entries merged into user projects by npx command
 ├── assets/
 │   └── social-preview.png
 ├── docs/

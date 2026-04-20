@@ -1,0 +1,8 @@
+# Never ship personal/local settings
+.claude/settings.local.json
+
+# Dev-only
+node_modules/
+.code-review-graph/
+.playwright/
+.git/
