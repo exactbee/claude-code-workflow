@@ -20,7 +20,7 @@ const SUBCOMMAND = process.argv[2] && !process.argv[2].startsWith('-') ? process
 const skillsArg = process.argv.find(a => a.startsWith('--skills='));
 const SKILLS = skillsArg ? skillsArg.slice(9) : 'all';
 
-const WHITELIST = ['.claude', 'CLAUDE.md', '.mcp.json', 'setup.sh', 'setup.ps1'];
+const WHITELIST = ['.claude', 'CLAUDE.md', '.mcp.json', 'setup.sh', 'setup.ps1', '.code-review-graphignore'];
 const MARKER = '.claude-workflow-kit';
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
@@ -273,10 +273,19 @@ if (SKIP_MCP || DRY_RUN) {
 
 console.log('[3/3] Done.');
 console.log('');
+
+const hasGit = fs.existsSync(path.join(DEST, '.git'));
+if (!hasGit) {
+  console.log('⚠  No .git directory found. Initialize git for full functionality:');
+  console.log('     git init && git add . && git commit -m "Initial commit"');
+  console.log('   code-review-graph hooks and incremental updates require git.');
+  console.log('');
+}
+
 console.log('Next steps:');
 console.log('  1. Restart Claude Code to activate MCP servers');
 console.log('  2. Build the code-review-graph for this project (required by Rule 8):');
-console.log('       code-review-graph build');
+console.log('       /build-graph  (inside Claude Code) or: code-review-graph build');
 
 }
 

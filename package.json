@@ -1,6 +1,6 @@
 {
   "name": "claude-workflow-kit",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "One-command Claude Code workflow bootstrap — Opus-plans, Sonnet-executes",
   "bin": {
     "claude-workflow-kit": "bin/init.js"
@@ -12,6 +12,7 @@
     "setup.sh",
     "setup.ps1",
     ".gitignore-template",
+    ".code-review-graphignore",
     "bin"
   ],
   "engines": {
