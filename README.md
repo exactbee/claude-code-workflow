@@ -48,7 +48,15 @@ claude .
 
 The advisor is pre-configured to **Opus** in `.claude/settings.json` — no manual setup needed.
 
-**Re-install / update:** `npx claude-workflow-kit --force` to overwrite existing files.
+**Update global install:**
+```bash
+npm install -g claude-workflow-kit@latest
+```
+
+**Update an existing project** (overwrites `.claude/`, `CLAUDE.md`, `.mcp.json` with latest):
+```bash
+claude-workflow-kit --force
+```
 
 **If MCP installs fail:** `npx claude-workflow-kit --skip-mcp` copies files only. Then install manually:
 ```bash
