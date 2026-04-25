@@ -91,6 +91,7 @@ code-review-graph build
 
 | Command | What it does |
 |---------|-------------|
+| `/build-graph` | Build or rebuild the code-review-graph knowledge graph for this project |
 | `/caveman` | Ultra-compressed communication mode — ~75% fewer tokens |
 | `/review-mood` | Set reviewer persona (strict / lenient / paranoid) for all reviews |
 | `/review-changes` | Structured code review with change detection and impact analysis |
@@ -112,6 +113,7 @@ code-review-graph build
 - **Surface plan changes** — revised plans are always shown to you for approval
 - **No silent decisions** — ambiguity gets a question, not an assumption
 - **Flag your source** — Sonnet distinguishes verified facts from training knowledge
+- **Graph-first agents** — all parallel agents (review, debug, explore, refactor, security) query the code graph before reading any file. Run `/build-graph` if the graph is missing.
 
 ---
 
