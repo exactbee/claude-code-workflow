@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 
 const isWindows = process.platform === 'win32';
 const command = isWindows ? 'cmd' : 'npx';
-const args = isWindows ? ['/c', 'npx', '-y', '@mksglu/context-mode'] : ['-y', '@mksglu/context-mode'];
+const args = isWindows ? ['/c', 'npx', '-y', 'context-mode'] : ['-y', 'context-mode'];
 
 const child = spawn(command, args, {
   stdio: 'inherit',

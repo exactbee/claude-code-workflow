@@ -251,7 +251,7 @@ if (SKIP_MCP || DRY_RUN) {
   console.log('');
 
   console.log('  -> context-mode');
-  run('npx @mksglu/context-mode install');
+  run('npm install -g context-mode');
   console.log('');
 
   console.log('  -> code-review-graph');
@@ -260,6 +260,7 @@ if (SKIP_MCP || DRY_RUN) {
   } catch (_) {
     run('pip3 install code-review-graph');
   }
+  run('code-review-graph install --platform claude-code');
   console.log('');
 
   console.log('  -> playwright-cli');
