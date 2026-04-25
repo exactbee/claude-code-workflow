@@ -1,6 +1,6 @@
-# Claude Code Environment
+# Claude Code Workflow Kit
 
-A structured Claude Code workspace that enforces an **Opus-plans, Sonnet-executes** workflow.
+A structured Claude Code workspace that enforces an **Opus-plans, Sonnet-executes** workflow — with context protection, code graph navigation, and browser automation built in.
 
 ## How It Works
 
@@ -19,7 +19,15 @@ The workflow:
 
 ---
 
-## Setup (First Time)
+## Prerequisites
+
+- **Node.js 18+** — [nodejs.org](https://nodejs.org)
+- **Python 3.10+** — [python.org](https://python.org)
+- **Claude Code** — `npm install -g @anthropic-ai/claude-code`
+
+---
+
+## Setup
 
 Run this in any project directory:
 
@@ -30,7 +38,7 @@ npx claude-workflow-kit
 That's it. The command:
 - Copies `.claude/`, `CLAUDE.md`, `.mcp.json`, and setup scripts into your project
 - Merges `.gitignore` entries
-- Installs all MCP servers (context-mode, code-review-graph, playwright-cli)
+- Installs MCP servers: **context-mode**, **code-review-graph**, **playwright-cli**
 
 Then open the project in Claude Code:
 
@@ -40,39 +48,59 @@ claude .
 
 The advisor is pre-configured to **Opus** in `.claude/settings.json` — no manual setup needed.
 
-> **Re-install / update:** `npx claude-workflow-kit --force` to overwrite existing files.
+**Re-install / update:** `npx claude-workflow-kit --force` to overwrite existing files.
+
+**If MCP installs fail:** `npx claude-workflow-kit --skip-mcp` copies files only. Then install manually:
+```bash
+npm install -g context-mode
+pip install code-review-graph && code-review-graph install --platform claude-code
+```
 
 ---
 
-## What's in This Repo
+## Verify It Works
+
+After running `npx claude-workflow-kit` and opening the project in Claude Code:
 
 ```
-.
-├── CLAUDE.md                  # Workflow rules auto-loaded by Claude Code
-├── README.md                  # This file
-├── CONTRIBUTING.md            # How to contribute
-├── package.json               # npm package (enables npx claude-code-workflow)
-├── bin/
-│   └── init.js                # npx entry point — copies files + installs MCP servers
-├── setup.sh                   # MCP install script (Mac/Linux)
-├── setup.ps1                  # MCP install script (Windows)
-├── .mcp.json                  # MCP server config (context-mode, context7, repomix, code-review-graph)
-├── .gitignore
-├── .gitignore-template        # Entries merged into user projects by npx command
-├── assets/
-│   └── social-preview.png
-├── docs/
-│   ├── SETUP.md               # Install guide for each tool
-│   ├── TOOLKIT.md             # What each tool does and why
-│   ├── DECISIONS.md           # Architecture decision log
-│   ├── LIMITS.md              # Known limits and failure modes
-│   └── WATCHLIST.md           # Tools under evaluation
-└── .claude/
-    ├── settings.json          # Project-scoped Claude Code settings
-    ├── settings.local.json.example
-    ├── mcp-wrappers/          # Cross-platform npx wrappers
-    └── skills/                # Slash commands (caveman, debrief, git-profile, playwright-cli…)
+/context-mode:ctx-doctor    # all checks should show [x]
+/context-mode:ctx-stats     # shows context savings for the session
 ```
+
+Then build the code graph (required for code review tools):
+
+```bash
+code-review-graph build
+```
+
+---
+
+## What You Get
+
+### MCP Servers
+
+| Server | What it does |
+|--------|-------------|
+| **context-mode** | Sandboxes tool output so large results never flood your context window — up to 98% reduction |
+| **code-review-graph** | Builds a persistent map of your codebase so Claude reads only what matters — 6.8× fewer tokens on reviews |
+| **context7** | Fetches up-to-date library docs on demand |
+| **repomix** | Packs codebases into AI-optimized format for analysis |
+| **playwright-cli** | Browser automation and UI testing |
+
+### Slash Commands (Skills)
+
+| Command | What it does |
+|---------|-------------|
+| `/caveman` | Ultra-compressed communication mode — ~75% fewer tokens |
+| `/review-mood` | Set reviewer persona (strict / lenient / paranoid) for all reviews |
+| `/review-changes` | Structured code review with change detection and impact analysis |
+| `/debug-issue` | Systematic debugging using graph-powered code navigation |
+| `/explore-codebase` | Navigate and understand codebase structure via the knowledge graph |
+| `/refactor-safely` | Plan and execute safe refactoring using dependency analysis |
+| `/debrief` | Communication retrospective — honest analysis of where session went wrong |
+| `/save-debrief` | Extract debrief findings and save as feedback memory |
+| `/git-profile` | Set or show a local git identity for the current repo |
+| `/playwright-cli` | Automate browser interactions and generate Playwright tests |
 
 ---
 
@@ -83,6 +111,36 @@ The advisor is pre-configured to **Opus** in `.claude/settings.json` — no manu
 - **Escalate when blocked** — Sonnet stops and consults Opus after 2 failed attempts
 - **Surface plan changes** — revised plans are always shown to you for approval
 - **No silent decisions** — ambiguity gets a question, not an assumption
+- **Flag your source** — Sonnet distinguishes verified facts from training knowledge
+
+---
+
+## What's in This Repo
+
+```
+.
+├── CLAUDE.md                  # Workflow rules auto-loaded by Claude Code
+├── README.md                  # This file
+├── CONTRIBUTING.md            # How to contribute
+├── package.json               # npm package (enables npx claude-workflow-kit)
+├── bin/
+│   └── init.js                # npx entry point — copies files + installs MCP servers
+├── setup.sh                   # MCP install script (Mac/Linux)
+├── setup.ps1                  # MCP install script (Windows)
+├── .mcp.json                  # MCP server config (context-mode, context7, repomix, code-review-graph)
+├── .gitignore
+├── .gitignore-template        # Entries merged into user projects by npx command
+├── docs/
+│   ├── SETUP.md               # Install guide for each tool
+│   ├── TOOLKIT.md             # What each tool does and why
+│   ├── DECISIONS.md           # Architecture decision log
+│   ├── LIMITS.md              # Known limits and failure modes
+│   └── WATCHLIST.md           # Tools under evaluation
+└── .claude/
+    ├── settings.json          # Project-scoped Claude Code settings
+    ├── mcp-wrappers/          # Cross-platform npx wrappers for MCP servers
+    └── skills/                # Slash commands (caveman, debrief, git-profile, playwright-cli…)
+```
 
 ---
 
