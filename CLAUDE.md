@@ -47,11 +47,12 @@ When stating a fact, recommendation, or technical detail, be explicit about its 
 
 Never present training knowledge as verified fact. If the user is about to act on something, verify it first.
 
-### Rule 8 — Use code-review-graph for All Reviews
-When running any code review, security review, or `/simplify`:
-- Always pair review agents with `code-review-graph` tools (`get_review_context_tool`, `get_impact_radius_tool`).
-- Never launch a review agent with raw diff alone.
-- If the graph is missing, run `code-review-graph build` first, then proceed.
+### Rule 8 — Use code-review-graph for All Agent Tasks
+When spawning any parallel or solo agent for: code review, security review, `/simplify`, explore, debug, refactor, or impact analysis:
+- Always prime the agent with `get_minimal_context_tool(task="<task>")` before reading any file.
+- Always pair review/security agents with `get_review_context_tool` and `get_impact_radius_tool`.
+- Never launch any agent with raw diff or raw file reads alone — graph context first.
+- If the graph is missing or stale, run `/build-graph` first, then proceed.
 - Always inject the current reviewer mood into every review agent prompt (default: **strict**). Use `/review-mood` to change it.
 
 ### Rule 7 — Use Haiku for Bulk Mechanical Work
