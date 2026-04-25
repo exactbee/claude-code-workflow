@@ -1,15 +1,91 @@
+# JavaScript / TypeScript / Node
 node_modules/
 **/node_modules/
-.git/
 dist/
 build/
 out/
 .next/
 .nuxt/
+.svelte-kit/
 coverage/
 .cache/
 .parcel-cache/
+.turbo/
+.vercel/
 *.min.js
 *.min.css
 *.bundle.js
 *.map
+
+# Python
+.venv/
+**/.venv/
+venv/
+**/venv/
+env/
+**/env/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+site-packages/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+
+# Ruby
+vendor/bundle/
+.bundle/
+tmp/
+
+# Go
+vendor/
+
+# Rust
+target/
+
+# Java / Kotlin / Scala
+.gradle/
+.mvn/
+target/
+out/
+*.class
+*.jar
+
+# Swift / Objective-C
+Pods/
+.build/
+DerivedData/
+*.xcworkspace/
+*.xcodeproj/
+
+# C / C++ / Zig
+*.o
+*.a
+*.so
+*.dll
+*.dylib
+CMakeFiles/
+cmake-build-*/
+
+# Julia
+.julia/
+
+# PHP
+vendor/
+
+# Dart / Flutter
+.dart_tool/
+build/
+.pub-cache/
+
+# General
+.git/
+.DS_Store
+*.log
+*.tmp
+tmp/
+temp/
